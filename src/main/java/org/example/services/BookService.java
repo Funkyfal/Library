@@ -21,24 +21,29 @@ public class BookService {
         return bookRepository.findById(id);
     }
 
+    public Optional<Book> getBookByISBN(String ISBN) {
+        return bookRepository.findByISBN(ISBN);
+    }
+
     public Book addNewBook(Book book) {
-        return bookRepository.save(book);
+        return bookRepository.findByISBN(book.getISBN())
+                .orElse(bookRepository.save(book));
     }
 
     public Book changeBook(Long id, Book book) {
         return bookRepository.findById(id).map(existingBook ->
-        {
-            existingBook.setAuthor(book.getAuthor());
-            existingBook.setDescription(book.getDescription());
-            existingBook.setName(book.getName());
-            existingBook.setGenre(book.getGenre());
-            existingBook.setISBN(book.getISBN());
-            return bookRepository.save(existingBook);
-        }
+                {
+                    existingBook.setAuthor(book.getAuthor());
+                    existingBook.setDescription(book.getDescription());
+                    existingBook.setName(book.getName());
+                    existingBook.setGenre(book.getGenre());
+                    existingBook.setISBN(book.getISBN());
+                    return bookRepository.save(existingBook);
+                }
         ).orElseThrow(() -> new IllegalArgumentException("Book with id " + " not found"));
     }
 
-    public void deleteBook(Long id){
+    public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
 }

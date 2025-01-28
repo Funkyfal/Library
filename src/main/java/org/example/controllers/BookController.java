@@ -3,10 +3,11 @@ package org.example.controllers;
 import org.example.entities.Book;
 import org.example.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class BookController {
@@ -14,27 +15,46 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/book")
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
+    public ResponseEntity<List<Book>> getAllBooks() {
+        return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
     }
 
     @GetMapping("/book/{id}")
-    public Optional<Book> getBook(@PathVariable("id") Long id) {
-        return bookService.getBook(id);
+    public ResponseEntity<Book> getBook(@PathVariable("id") Long id) {
+        return bookService.getBook(id)
+                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/book/isbn/{isbn}")
+    public ResponseEntity<Book> getBookByISBN(@PathVariable("isbn") String ISBN) {
+        return bookService.getBookByISBN(ISBN)
+                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/book")
-    public Book addNewBook(@RequestBody Book book) {
-        return bookService.addNewBook(book);
+    public ResponseEntity<Book> addNewBook(@RequestBody Book book) {
+        return new ResponseEntity<>(bookService.addNewBook(book), HttpStatus.CREATED);
+
     }
 
     @PutMapping("/book/{id}")
-    public Book changeBook(@PathVariable("id") Long id, @RequestBody Book book) {
-        return bookService.changeBook(id, book);
+    public ResponseEntity<Book> changeBook(@PathVariable("id") Long id, @RequestBody Book book) {
+        try {
+            return new ResponseEntity<>(bookService.changeBook(id, book), HttpStatus.OK);
+        } catch (IllegalArgumentException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @DeleteMapping("/book/{id}")
-    public void deleteBook(@PathVariable("id") Long id){
-        bookService.deleteBook(id);
+        @DeleteMapping("/book/{id}")
+        public ResponseEntity<Void> deleteBook (@PathVariable("id") Long id){
+            if (bookService.getBook(id).isPresent()) {
+                bookService.deleteBook(id);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
     }
-}
