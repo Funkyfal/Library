@@ -27,7 +27,7 @@ public class BookService {
 
     public Book addNewBook(Book book) {
         return bookRepository.findByISBN(book.getISBN())
-                .orElse(bookRepository.save(book));
+                .orElseGet(() -> bookRepository.save(book));
     }
 
     public Book changeBook(Long id, Book book) {
