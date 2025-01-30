@@ -25,10 +25,7 @@ public class BookController {
     @GetMapping("/book/{id}")
     public ResponseEntity<Book> getBook(@PathVariable("id") Long id) {
         return bookService.getBook(id)
-                .map(book -> {
-                    kafkaProducer.sendMessage(book.toString());
-                    return new ResponseEntity<>(book, HttpStatus.OK);
-                })
+                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -41,26 +38,28 @@ public class BookController {
 
     @PostMapping("/book")
     public ResponseEntity<Book> addNewBook(@RequestBody Book book) {
-        return new ResponseEntity<>(bookService.addNewBook(book), HttpStatus.CREATED);
-
+        Book createdBook = bookService.addNewBook(book);
+        kafkaProducer.sendBookAction("add", createdBook.getId().toString());
+        return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
 
     @PutMapping("/book/{id}")
     public ResponseEntity<Book> changeBook(@PathVariable("id") Long id, @RequestBody Book book) {
         try {
             return new ResponseEntity<>(bookService.changeBook(id, book), HttpStatus.OK);
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-        @DeleteMapping("/book/{id}")
-        public ResponseEntity<Void> deleteBook (@PathVariable("id") Long id){
-            if (bookService.getBook(id).isPresent()) {
-                bookService.deleteBook(id);
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+    @DeleteMapping("/book/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable("id") Long id) {
+        if (bookService.getBook(id).isPresent()) {
+            bookService.deleteBook(id);
+            kafkaProducer.sendBookAction("delete", id.toString());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+}

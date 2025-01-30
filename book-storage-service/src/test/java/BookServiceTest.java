@@ -1,4 +1,4 @@
-import org.example.Repositories.BookRepository;
+import org.example.repositories.BookRepository;
 import org.example.entities.Book;
 import org.example.services.BookService;
 import org.junit.jupiter.api.Test;
