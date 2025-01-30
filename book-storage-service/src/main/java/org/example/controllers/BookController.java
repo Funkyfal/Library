@@ -1,6 +1,7 @@
 package org.example.controllers;
 
 import org.example.entities.Book;
+import org.example.kafka.KafkaProducer;
 import org.example.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,8 @@ import java.util.List;
 public class BookController {
     @Autowired
     private BookService bookService;
+    @Autowired
+    private KafkaProducer kafkaProducer;
 
     @GetMapping("/book")
     public ResponseEntity<List<Book>> getAllBooks() {
@@ -22,7 +25,10 @@ public class BookController {
     @GetMapping("/book/{id}")
     public ResponseEntity<Book> getBook(@PathVariable("id") Long id) {
         return bookService.getBook(id)
-                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
+                .map(book -> {
+                    kafkaProducer.sendMessage(book.toString());
+                    return new ResponseEntity<>(book, HttpStatus.OK);
+                })
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

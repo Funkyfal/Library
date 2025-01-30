@@ -63,4 +63,11 @@ public class Book {
     public void setId(Long id){
         this.id = id;
     }
+
+    @Override
+    public String toString(){
+        return "Book name: " + this.name
+                + "\nBook author: " + this.author
+                + "\nBook genre: " + this.genre;
+    }
 }
