@@ -44,6 +44,9 @@ public class BookService {
     }
 
     public void deleteBook(Long id) {
-        bookRepository.deleteById(id);
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No such a book with ID " + id));
+        book.setDeleted(true);
+        bookRepository.save(book);
     }
 }

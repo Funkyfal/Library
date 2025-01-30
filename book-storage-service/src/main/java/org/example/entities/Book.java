@@ -4,17 +4,28 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.Where;
 
 @Entity
+@Where(clause = "deleted = false")
 public class Book {
     private String author;
     private String description;
     private String ISBN;
     private String name;
     private String genre;
+    private boolean deleted = false;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public String getAuthor() {
         return author;

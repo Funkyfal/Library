@@ -1,5 +1,6 @@
 package org.example.services;
 
+import jakarta.transaction.Transactional;
 import org.example.entities.Shelf;
 import org.example.repositories.ShelfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class ShelfService {
         shelfRepository.save(shelf);
     }
 
+    @Transactional
     public void removeBookFromShelf(Long book_id){
         shelfRepository.deleteByBookId(book_id);
     }
