@@ -1,4 +1,4 @@
-package org.example;
+package org.example.kafka;
 
 import org.example.services.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
