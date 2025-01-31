@@ -1,7 +1,7 @@
 package org.example.controllers;
 
 import org.example.entities.Book;
-import org.example.kafka.KafkaProducer;
+import org.example.kafka.BookKafkaProducer;
 import org.example.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ public class BookController {
     @Autowired
     private BookService bookService;
     @Autowired
-    private KafkaProducer kafkaProducer;
+    private BookKafkaProducer bookKafkaProducer;
 
     @GetMapping("/book")
     public ResponseEntity<List<Book>> getAllBooks() {
@@ -39,7 +39,7 @@ public class BookController {
     @PostMapping("/book")
     public ResponseEntity<Book> addNewBook(@RequestBody Book book) {
         Book createdBook = bookService.addNewBook(book);
-        kafkaProducer.sendBookAction("add", createdBook.getId().toString());
+        bookKafkaProducer.sendBookAction("add", createdBook.getId().toString());
         return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
 
@@ -56,7 +56,7 @@ public class BookController {
     public ResponseEntity<Void> deleteBook(@PathVariable("id") Long id) {
         if (bookService.getBook(id).isPresent()) {
             bookService.deleteBook(id);
-            kafkaProducer.sendBookAction("delete", id.toString());
+            bookKafkaProducer.sendBookAction("delete", id.toString());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

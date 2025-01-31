@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.kafka.annotation.KafkaListener;
 
 @Service
-public class KafkaConsumer {
+public class ShelfKafkaConsumer {
     @Autowired
     private ShelfService shelfService;
 
@@ -23,4 +23,12 @@ public class KafkaConsumer {
         }
     }
 
+    @KafkaListener(topics = "book-validate-response", groupId = "book-tracker")
+    public void handleValidateResponse(String message){
+        if(Boolean.parseBoolean(message.split(":")[1])){
+            shelfService.addBookToShelf(Long.parseLong(message.split(":")[0]));
+        } else {
+            throw new RuntimeException("No such a book in a stock");
+        }
+    }
 }

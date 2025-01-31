@@ -1,14 +1,12 @@
 package org.example.controllers;
 
 import org.example.entities.Shelf;
+import org.example.kafka.ShelfKafkaProducer;
 import org.example.services.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,10 +14,17 @@ import java.util.List;
 public class ShelfController {
     @Autowired
     private ShelfService shelfService;
+    @Autowired
+    private ShelfKafkaProducer shelfKafkaProducer;
 
     @GetMapping("/shelf/available")
     public ResponseEntity<List<Shelf>> allAvailableBooks(){
         return new ResponseEntity<>(shelfService.getAllAvailableBooks(), HttpStatus.OK);
+    }
+
+    @PostMapping("shelf/add/{book_id}")
+    public void addBookToShelf(@PathVariable("book_id") Long book_id){
+        shelfKafkaProducer.sendShelfAction(book_id.toString());
     }
 
     @PutMapping("/shelf/take/{book_id}")
@@ -38,5 +43,10 @@ public class ShelfController {
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @DeleteMapping("shelf/delete/{book_id}")
+    public void deleteBookFromShelf(@PathVariable("book_id") Long book_id){
+        shelfService.removeBookFromShelf(book_id);
     }
 }

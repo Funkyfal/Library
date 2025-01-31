@@ -15,12 +15,16 @@ public class ShelfService {
     private ShelfRepository shelfRepository;
 
     public void addBookToShelf(Long book_id){
-        Shelf shelf = new Shelf();
-        shelf.setBookId(book_id);
-        shelf.setAvailability(true);
-        shelf.setTakenAt(null);
-        shelf.setReturnBy(null);
-        shelfRepository.save(shelf);
+        shelfRepository.findByBookId(book_id)
+                .orElseGet(() -> {
+                    Shelf shelf = new Shelf();
+                    shelf.setBookId(book_id);
+                    shelf.setAvailability(true);
+                    shelf.setTakenAt(null);
+                    shelf.setReturnBy(null);
+                    shelfRepository.save(shelf);
+                    return shelf;
+                });
     }
 
     @Transactional

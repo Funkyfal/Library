@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class KafkaConfiguration {
+public class ShelfKafkaConfiguration {
     @Bean
-    public NewTopic newTopic(){
-        return new NewTopic("book-action", 1, (short) 1);
+    public NewTopic newTopic() {
+        return new NewTopic("book-validate", 1, (short) 1);
     }
 }
