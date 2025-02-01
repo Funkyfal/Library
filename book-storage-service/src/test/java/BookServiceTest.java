@@ -1,5 +1,5 @@
-import org.example.repositories.BookRepository;
 import org.example.entities.Book;
+import org.example.repositories.BookRepository;
 import org.example.services.BookService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,11 +18,12 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
+
     @Mock
-    BookRepository bookRepository;
+    private BookRepository bookRepository;
 
     @InjectMocks
-    BookService bookService;
+    private BookService bookService;
 
     @Test
     void getAllBooks_shouldReturnListOfBooks() {
@@ -111,7 +112,7 @@ public class BookServiceTest {
 
         assertEquals("Existing Book", result.getName());
         verify(bookRepository, times(1)).findByISBN("123-456");
-        verify(bookRepository, times(0)).save(book);
+        verify(bookRepository, never()).save(book);
     }
 
     @Test
@@ -121,13 +122,18 @@ public class BookServiceTest {
         existingBook.setName("Old Book");
 
         Book updatedBook = new Book();
+        updatedBook.setAuthor("New Author");
+        updatedBook.setDescription("New Description");
         updatedBook.setName("New Book");
+        updatedBook.setGenre("New Genre");
+        updatedBook.setISBN("999-888");
 
         when(bookRepository.findById(1L)).thenReturn(Optional.of(existingBook));
         when(bookRepository.save(existingBook)).thenReturn(existingBook);
         Book result = bookService.changeBook(1L, updatedBook);
 
         assertEquals("New Book", result.getName());
+        assertEquals("New Author", result.getAuthor());
         verify(bookRepository, times(1)).findById(1L);
         verify(bookRepository, times(1)).save(existingBook);
     }
@@ -140,18 +146,21 @@ public class BookServiceTest {
         when(bookRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(IllegalArgumentException.class, () -> bookService.changeBook(1L, updatedBook));
         verify(bookRepository, times(1)).findById(1L);
-        verify(bookRepository, times(0)).save(any());
+        verify(bookRepository, never()).save(any());
     }
 
     @Test
-    void deleteBook_shouldDeleteWhenExists() {
+    void deleteBook_shouldSetDeletedAndSave() {
         Book book = new Book();
         book.setId(1L);
+        book.setDeleted(false);
 
         when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-        doNothing().when(bookRepository).deleteById(1L);
+        when(bookRepository.save(book)).thenReturn(book);
         bookService.deleteBook(1L);
 
-        verify(bookRepository, times(1)).deleteById(1L);
+        assertTrue(book.isDeleted());
+        verify(bookRepository, times(1)).findById(1L);
+        verify(bookRepository, times(1)).save(book);
     }
 }
