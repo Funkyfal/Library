@@ -46,13 +46,13 @@ public class AuthController {
         }
     }
 
-//    @PostMapping("/register")
-//    public ResponseEntity<?> register(@RequestBody RegistrationRequest request) {
-//        try {
-//            Users newUser = usersService.registerNewUser(request.getUsername(), request.getPassword(), request.getRole());
-//            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
-//        } catch (RuntimeException e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//        }
-//    }
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegistrationRequest request) {
+        try {
+            Users newUser = userDetailsService.registerNewUser(request.getUsername(), request.getPassword(), request.getRole());
+            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }
