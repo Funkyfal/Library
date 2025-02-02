@@ -8,7 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="book-tracker-service" />
         <module name="book-storage-service" />
-        <module name="Auth" />
+        <module name="auth-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
