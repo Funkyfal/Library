@@ -11,6 +11,7 @@
     <modules>
         <module>book-storage-service</module>
         <module>book-tracker-service</module>
+        <module>Auth</module>
     </modules>
 
     <properties>
