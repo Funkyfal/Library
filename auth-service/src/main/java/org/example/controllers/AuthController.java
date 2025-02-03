@@ -4,7 +4,6 @@ import org.example.dto.AuthRequest;
 import org.example.dto.AuthResponse;
 import org.example.dto.RegistrationRequest;
 import org.example.entities.Users;
-import org.example.security.CustomUserDetails;
 import org.example.security.jwt.JwtUtil;
 import org.example.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,16 +52,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
             String token = jwtUtil.generateJwtToken(authentication);
             return ResponseEntity.ok(new AuthResponse(token));
-        } catch (AuthenticationException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
     }
+
 }
