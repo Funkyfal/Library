@@ -19,16 +19,19 @@ public class JwtUtil {
     private String jwtSecret;
 
     public String generateJwtToken(Authentication authentication) {
-
         CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
 
+        String role = userPrincipal.getAuthorities().iterator().next().getAuthority();
+
         return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
+                .setSubject(userPrincipal.getUsername())
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + 1000 * 60 * 60 * 10))
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
 
     private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
