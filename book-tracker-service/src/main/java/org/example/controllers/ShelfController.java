@@ -22,11 +22,6 @@ public class ShelfController {
         return new ResponseEntity<>(shelfService.getAllAvailableBooks(), HttpStatus.OK);
     }
 
-    @PostMapping("shelf/add/{book_id}")
-    public void addBookToShelf(@PathVariable("book_id") Long book_id){
-        shelfKafkaProducer.sendShelfAction(book_id.toString());
-    }
-
     @PutMapping("/shelf/take/{book_id}")
     public ResponseEntity<Shelf> takeBook(@PathVariable("book_id") Long book_id) {
         try {
@@ -45,7 +40,12 @@ public class ShelfController {
         }
     }
 
-    @DeleteMapping("shelf/delete/{book_id}")
+    @PostMapping("admin/shelf/add/{book_id}")
+    public void addBookToShelf(@PathVariable("book_id") Long book_id){
+        shelfKafkaProducer.sendShelfAction(book_id.toString());
+    }
+
+    @DeleteMapping("admin/shelf/delete/{book_id}")
     public void deleteBookFromShelf(@PathVariable("book_id") Long book_id){
         shelfService.removeBookFromShelf(book_id);
     }

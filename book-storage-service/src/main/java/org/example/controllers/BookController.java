@@ -18,7 +18,6 @@ public class BookController {
     @Autowired
     private BookKafkaProducer bookKafkaProducer;
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/book")
     public ResponseEntity<List<Book>> getAllBooks() {
         return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
