@@ -16,9 +16,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UsersRepository usersRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = usersRepository.findByUsername(username)
@@ -26,16 +23,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new CustomUserDetails(user);
     }
 
-    public Users registerNewUser(String username, String password, String role) {
-        if (usersRepository.findByUsername(username).isPresent()) {
-            throw new RuntimeException("There is a user with this username");
-        }
+    public Boolean existsByUsername(String username){
+        return usersRepository.existsByUsername(username);
+    }
 
-        Users newUser = new Users();
-        newUser.setUsername(username);
-        newUser.setPassword(passwordEncoder.encode(password));
-        newUser.setRole(role != null ? role : "ROLE_USER");
-
-        return usersRepository.save(newUser);
+    public void registerNewUser(Users user){
+        usersRepository.save(user);
     }
 }
