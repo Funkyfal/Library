@@ -1,0 +1,12 @@
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/MainApp.java
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/controllers/BookController.java
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/entities/Book.java
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/kafka/BookKafkaConfiguration.java
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/kafka/BookKafkaConsumer.java
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/kafka/BookKafkaProducer.java
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/repositories/BookRepository.java
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/security/SecurityConfig.java
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/security/jwt/AuthEntryPointJwt.java
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/security/jwt/JwtAuthenticationFilter.java
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/security/jwt/JwtUtil.java
+/Users/admin/IdeaProjects/Library/book-storage-service/src/main/java/org/example/services/BookService.java

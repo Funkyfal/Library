@@ -1,0 +1,12 @@
+org/example/security/SecurityConfig.class
+org/example/controllers/ShelfController.class
+org/example/MainApp.class
+org/example/security/jwt/AuthEntryPointJwt.class
+org/example/repositories/ShelfRepository.class
+org/example/kafka/ShelfKafkaConfiguration.class
+org/example/kafka/ShelfKafkaConsumer.class
+org/example/security/jwt/JwtAuthenticationFilter.class
+org/example/kafka/ShelfKafkaProducer.class
+org/example/entities/Shelf.class
+org/example/services/ShelfService.class
+org/example/security/jwt/JwtUtil.class

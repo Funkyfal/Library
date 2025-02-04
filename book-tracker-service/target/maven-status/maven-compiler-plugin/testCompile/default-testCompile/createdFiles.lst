@@ -1,0 +1,5 @@
+ShelfKafkaProducerTest.class
+ShelfServiceTest.class
+ShelfControllerTest.class
+ShelfKafkaConsumerTest.class
+ShelfKafkaConsumerValidateTest.class

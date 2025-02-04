@@ -1,0 +1,4 @@
+BookControllerTest.class
+BookKafkaProducerTest.class
+BookKafkaConsumerTest.class
+BookServiceTest.class

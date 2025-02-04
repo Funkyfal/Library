@@ -1,0 +1,12 @@
+org/example/security/SecurityConfig.class
+org/example/MainApp.class
+org/example/security/jwt/AuthEntryPointJwt.class
+org/example/services/BookService.class
+org/example/kafka/BookKafkaConsumer.class
+org/example/repositories/BookRepository.class
+org/example/kafka/BookKafkaProducer.class
+org/example/controllers/BookController.class
+org/example/security/jwt/JwtAuthenticationFilter.class
+org/example/entities/Book.class
+org/example/security/jwt/JwtUtil.class
+org/example/kafka/BookKafkaConfiguration.class

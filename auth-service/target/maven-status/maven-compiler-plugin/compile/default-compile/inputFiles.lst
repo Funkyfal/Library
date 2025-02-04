@@ -1,0 +1,14 @@
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/Main.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/controllers/AuthController.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/controllers/TestController.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/dto/AuthRequest.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/dto/AuthResponse.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/dto/RegistrationRequest.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/entities/Users.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/repositories/UsersRepository.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/security/CustomUserDetails.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/security/SecurityConfig.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/security/jwt/AuthEntryPointJwt.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/security/jwt/JwtAuthenticationFilter.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/security/jwt/JwtUtil.java
+/Users/admin/IdeaProjects/Library/auth-service/src/main/java/org/example/services/CustomUserDetailsService.java

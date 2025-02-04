@@ -1,0 +1,12 @@
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/MainApp.java
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/controllers/ShelfController.java
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/entities/Shelf.java
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/kafka/ShelfKafkaConfiguration.java
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/kafka/ShelfKafkaConsumer.java
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/kafka/ShelfKafkaProducer.java
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/repositories/ShelfRepository.java
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/security/SecurityConfig.java
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/security/jwt/AuthEntryPointJwt.java
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/security/jwt/JwtAuthenticationFilter.java
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/security/jwt/JwtUtil.java
+/Users/admin/IdeaProjects/Library/book-tracker-service/src/main/java/org/example/services/ShelfService.java
