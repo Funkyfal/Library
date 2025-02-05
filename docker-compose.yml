@@ -1,6 +1,9 @@
 version: '3.8'
 services:
   book-storage-service:
+    build:
+      context: ./book-storage-service
+      dockerfile: Dockerfile
     image: book-storage-service:latest
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db-storage:5432/book_storage_db
@@ -14,6 +17,9 @@ services:
       - "8080:8080"
 
   book-tracker-service:
+    build:
+      context: ./book-tracker-service
+      dockerfile: Dockerfile
     image: book-tracker-service:latest
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db-tracker:5432/book_tracker_db
@@ -27,6 +33,9 @@ services:
       - "8000:8000"
 
   auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
     image: auth-service:latest
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db-auth:5432/auth_db
