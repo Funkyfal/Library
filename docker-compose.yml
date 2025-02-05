@@ -1,45 +1,50 @@
 version: '3.8'
 services:
   book-storage-service:
-    image: book-storage-service:1.0
+    image: book-storage-service:latest
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-storage:5432/book-storage-db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-storage:5432/book_storage_db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=DBPASSWORD
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
+      - kafka
       - db-storage
     ports:
       - "8080:8080"
 
   book-tracker-service:
-    image: book-tracker-service:1.0
+    image: book-tracker-service:latest
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-tracker:5432/book-tracker-db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-tracker:5432/book_tracker_db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=DBPASSWORD
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
+      - kafka
       - db-tracker
     ports:
-      - "8000:8080"
+      - "8000:8000"
 
   auth-service:
-    image: auth-service:1.0
+    image: auth-service:latest
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-storage:5432/auth-db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-auth:5432/auth_db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=DBPASSWORD
     depends_on:
+      - kafka
       - db-auth
     ports:
-      - "8008:8080"
+      - "8008:8008"
 
   db-storage:
     image: postgres:latest
     restart: always
     environment:
       POSTGRES_DB: book_storage_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: DBPASSWORD
     ports:
       - "5433:5432"
 
@@ -48,8 +53,8 @@ services:
     restart: always
     environment:
       POSTGRES_DB: book_tracker_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: DBPASSWORD
     ports:
       - "5434:5432"
 
@@ -58,8 +63,8 @@ services:
     restart: always
     environment:
       POSTGRES_DB: auth_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: DBPASSWORD
     ports:
       - "5435:5432"
 
@@ -69,7 +74,7 @@ services:
       - zookeeper
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://library-kafka-1:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     ports:
       - "9092:9092"
